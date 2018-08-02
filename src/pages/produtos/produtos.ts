@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ProdutoDTO } from '../../models/produto.dto';
+import { ProdutoService } from '../../services/domain/produto.service';
 
-/**
- * Generated class for the ProdutosPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -15,11 +11,18 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProdutosPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  items: ProdutoDTO[];
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public produtoService: ProdutoService) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProdutosPage');
+    let categoria_id = this.navParams.get('categoria_id');
+    this.produtoService.findByCategoria(categoria_id)
+    .subscribe(response => {
+      this.items = response['content'];
+    })
   }
 
 }
