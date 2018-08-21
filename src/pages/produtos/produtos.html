@@ -8,13 +8,12 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="showProdutos(item.id)">
+  <ion-list ion-item *ngFor="let item of items" >
       <ion-thumbnail item-start>
         <img [src]="item.imageUrl || 'assets/imgs/prod.jpg' ">
       </ion-thumbnail>
       <h2> {{ item.nome }} </h2>
       <h2> R$ {{item.preco}}</h2>
-    </button>
+    <button ion-button outline (click) = "addToCart(item)">Adicionar ao carrinho</button>
    </ion-list>
 </ion-content>

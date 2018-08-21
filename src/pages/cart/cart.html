@@ -1,6 +1,4 @@
-
 <ion-header>
-
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -14,9 +12,9 @@
 <ion-content padding>
 <ion-list>
   <ion-item *ngFor= "let item of items">
-    <ion-thumbsnail item-start>
+    <ion-thumbnail item-start>
       <img [src] = "item.produto.imageUrl || 'assets/imgs/prod.jpg'">
-    </ion-thumbsnail>
+    </ion-thumbnail>
     <h2>{{item.produto.nome}}</h2>
     <p>{{item.produto.preco | currency}}</p>
     <p>{{item.quantidade}}</p>

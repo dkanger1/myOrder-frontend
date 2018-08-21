@@ -4,6 +4,7 @@ import { CartItem } from '../../models/cart-item';
 import { StorageService } from '../../services/storage.service';
 import { ProdutoService } from '../../services/domain/produto.service';
 import { API_CONFIG } from '../../config/api.config';
+import { CartService } from '../../services/domain/cart.service';
 
 @IonicPage()
 @Component({
@@ -14,14 +15,15 @@ export class CartPage {
 
   items: CartItem[];
 
-  constructor(public navCtrl: NavController, 
+  constructor(
+    public navCtrl: NavController, 
     public navParams: NavParams,
-    public storage: StorageService,
-  public produtoService: ProdutoService) {
+    public cartService: CartService,
+    public produtoService: ProdutoService) {
   }
 
   ionViewDidLoad() {
-   let cart = this.storage.getCart();
+   let cart = this.cartService.getCart();
    this.items = cart.items;
    this.loadImageUrls();
   }
