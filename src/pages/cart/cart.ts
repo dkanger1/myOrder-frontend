@@ -32,9 +32,9 @@ export class CartPage {
   loadImageUrls() {
     for (var i=0; i<this.items.length; i++) {
       let item = this.items[i];
-      this.produtoService.getSmallImageFromBucket(item.produto.id)
+      this.produtoService.getImageFromBucket(item.produto.id)
       .subscribe(response => {
-        item.produto.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.produto.id}-small.jpg`;
+        item.produto.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.produto.id}.jpg`;
     },
   error =>{});
     }

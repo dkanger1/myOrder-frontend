@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>Customize</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-grid>
+<ion-row>
+  <ion-col col-6>
+      <img [src]="item?.imageUrl || 'assets/imgs/prod.jpg'"/>
+    </ion-col>
+    <ion-col col-6>
+      <h2>Ingredientes</h2>
+</ion-col>
+  </ion-row>
+      <ion-card-content>
+        <ion-card-title>
+          {{item?.nome}}
+          </ion-card-title>
+        <p>
+          {{item?.preco | currency}}
+        </p>
+      </ion-card-content>
+    </ion-grid>
+  
+    <button ion-button block outline (click)="addToCart(item)">Finalizar</button>
+  </ion-content>
