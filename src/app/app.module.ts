@@ -11,18 +11,24 @@ import { ProdutoService } from '../services/domain/produto.service';
 import { HttpModule } from '@angular/http';
 import { CartService } from '../services/domain/cart.service';
 import { StorageService } from '../services/storage.service';
+import { DragulaModule } from 'ng2-dragula';
+import { CustomizeOrderPage } from '../pages/customize-order/customize-order';
+
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
+    CustomizeOrderPage
     ],
   imports: [
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
+    DragulaModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp
+    MyApp,
+    CustomizeOrderPage
   ],
   providers: [
     StatusBar,

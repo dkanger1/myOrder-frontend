@@ -1,31 +1,56 @@
-<ion-header>
-    <ion-navbar>
-      <button ion-button menuToggle>
-          <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-title>Customize</ion-title>
-    </ion-navbar>
-  </ion-header>
-  
-  <ion-content padding>
+<ion-header no-border>
+  <ion-navbar transparent>
+    <ion-title>MyOrder</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div class='wrapper'>
     <ion-grid>
-<ion-row>
-  <ion-col col-6>
-      <img [src]="item?.imageUrl || 'assets/imgs/prod.jpg'"/>
-    </ion-col>
-    <ion-col col-6>
-      <h2>Ingredientes</h2>
-</ion-col>
-  </ion-row>
-      <ion-card-content>
-        <ion-card-title>
-          {{item?.nome}}
-          </ion-card-title>
-        <p>
-          {{item?.preco | currency}}
-        </p>
-      </ion-card-content>
+      <ion-row>
+
+        <ion-col>
+          <div class='container' dragula="COPYABLE" id="left">
+            <div *ngFor="let obj of ingredients" [id]="obj.name">
+              <img [src]="obj.src">
+              <h3>
+                <b>{{obj.name}} </b>
+              </h3>
+            </div>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div class='container' dragula="COPYABLE" id="right">
+            <div>
+              <img [src]="imgOrder" class="img-order">
+            </div>
+          </div>
+        </ion-col>
+        <ion-col>
+          <!-- <ion-scroll style="height: 500px"> -->
+          <!-- </ion-scroll> -->
+          <h1>Itens Adicionados</h1>
+          <ion-list>
+            <div *ngFor="let item of orderItens">
+              <ion-row>
+                <ion-col>
+                  <h3>
+                    <b>{{item.name}} </b>
+                  </h3>
+                  <img [src]="item.src">
+                </ion-col>
+                <ion-col>
+                  <button ion-button round color="danger" icon-start (click)="removeItem(item)">
+                    <ion-icon name="trash"></ion-icon>
+                    Remover
+                  </button>
+                </ion-col>
+              </ion-row>
+            </div>
+          </ion-list>
+        </ion-col>
+      </ion-row>
     </ion-grid>
-  
-    <button ion-button block outline (click)="addToCart(item)">Finalizar</button>
-  </ion-content>
+  </div>
+</ion-content>

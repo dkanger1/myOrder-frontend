@@ -1,16 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ProdutoDTO } from '../../models/produto.dto';
-import { CartService } from '../../services/domain/cart.service';
-import { ProdutoService } from '../../services/domain/produto.service';
-import { API_CONFIG } from '../../config/api.config';
-
-/**
- * Generated class for the CustomizeOrderPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { DragulaService } from 'ng2-dragula';
+import { Subscription } from 'rxjs';
 
 @IonicPage()
 @Component({
@@ -19,34 +10,94 @@ import { API_CONFIG } from '../../config/api.config';
 })
 export class CustomizeOrderPage {
  
-  item: ProdutoDTO;
-  
-  constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams,
-    public produtoService: ProdutoService,
-    public cartService: CartService) {
+  subs = new Subscription();
+  imgOrder = "../../assets/imgs/pizza.svg";
+
+  ingredients = [{
+    name: "Mussarela",
+    src: "../../assets/imgs/cheese.svg"
+  }, {
+    name: "Salami",
+    src: "../../assets/imgs/salami.svg"
+  }, {
+    name: "Cogumelo",
+    src: "../../assets/imgs/mushroom.svg"
+  }];
+
+  orderItens: any = [];
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public dragula: DragulaService, public toastCrtl: ToastController) {
+    dragula.createGroup('COPYABLE', {
+      copy: (el, source) => {
+        return source.id === 'left';
+      },
+      accepts: (el, target, source, sibling) => {
+        return target.id !== 'left';
+      }
+    });
+    this.subs.add(this.dragula.drop("COPYABLE")
+      .subscribe(({ el, target, source, sibling }) => {
+        this.addClass(el, 'add-ingredient');
+        if (target !== null && target.id !== 'left') {
+          var id = el.id;
+          this.addItemToOrder(id);
+        }
+      })
+    );
   }
+
   ionViewDidLoad() {
-    let produto_id = this.navParams.get('produto_id');
-    this.produtoService.findById(produto_id)
-      .subscribe(response => {
-        this.item = response;
-        this.getImageUrlIfExists();
-      },
-      error => {});
+    console.log('ionViewDidLoad BuildOrderPage');
   }
 
-  getImageUrlIfExists() {
-    this.produtoService.getImageFromBucket(this.item.id)
-      .subscribe(response => {      
-        this.item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${this.item.id}.jpg`;
-      },
-      error => {});
+  getIngredient(id: string) {
+    return this.ingredients.find(item => item.name === id);
   }
 
-  addToCart(produto: ProdutoDTO) {
-    this.cartService.addProduto(produto);
-    this.navCtrl.setRoot('CartPage');
+  addItemToOrder(id: string) {
+    var item = this.getIngredient(id);
+
+    if (item.name === "Salami") {
+      this.imgOrder = "../../assets/imgs/pizza_salami.svg";
+    }
+    this.orderItens.push(item);
+    this.presentToast(id);
   }
+
+  removeItem(item) {
+    var index = this.orderItens.indexOf(item, 0);
+    console.log(index);
+    if (index > -1) {
+      this.orderItens.splice(index, 1);
+    }
+
+  }
+
+  presentToast(id) {
+    var i = this.getIngredient(id);
+    const toast = this.toastCrtl.create({
+      message: `${i.name} was added successfully`,
+      duration: 3000,
+      position: "middle"
+    });
+    toast.present();
+  }
+
+
+  private hasClass(el: Element, name: string): any {
+    return new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)').test(el.className);
+  }
+
+  private addClass(el: Element, name: string): void {
+    if (!this.hasClass(el, name)) {
+      el.className = el.className ? [el.className, name].join(' ') : name;
+    }
+  }
+
+  private removeClass(el: Element, name: string): void {
+    if (this.hasClass(el, name)) {
+      el.className = el.className.replace(new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)', 'g'), '');
+    }
+  }
+
 }
