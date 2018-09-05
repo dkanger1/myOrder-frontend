@@ -1,14 +1,14 @@
 <ion-header>
-    <ion-navbar>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-title>Categorias</ion-title>
-    </ion-navbar>
-  </ion-header>
-  
-  <ion-content padding>
-    <ion-fab top right edge>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Categorias</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!-- <ion-fab top right edge>
       <button navPush="CartPage" ion-fab mini><ion-icon name="cart"></ion-icon></button>
     </ion-fab>
     <ion-list>
@@ -18,5 +18,24 @@
         </ion-thumbnail>
         <h2> {{ item.nome }} </h2>
       </button>
-     </ion-list>
-  </ion-content>
+     </ion-list> -->
+  <ion-grid>
+    <ion-row>
+      <ion-col col-4>
+        <div class="center-div">
+          <img [src]="pizzaImg" (click)="showProdutos(1)">
+        </div>
+      </ion-col>
+      <ion-col col-4>
+        <div class="center-div" (click)="showProdutos(2)">
+          <img [src]="refriImg">
+        </div>
+      </ion-col>
+      <ion-col col-4>
+        <div class="center-div" (click)="showProdutos(3)">
+          <img [src]="sobremesaImg">
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

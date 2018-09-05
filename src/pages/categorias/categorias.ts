@@ -11,10 +11,14 @@ import { API_CONFIG } from '../../config/api.config';
 })
 export class CategoriasPage {
 
-  items:CategoriaDTO[];
+  items: CategoriaDTO[];
+
+  pizzaImg: string = "../../assets/imgs/Pizza.jpg";
+  refriImg: string = "../../assets/imgs/Bebida.jpg";
+  sobremesaImg: string = "../../assets/imgs/Sobremesa.jpg";
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public categoriaService: CategoriaService) {
   }
@@ -24,11 +28,11 @@ export class CategoriasPage {
       .subscribe(response => {
         this.items = response;
       },
-    error=> {
-    });
+        error => {
+        });
   }
-  showProdutos(categoria_id: string){
-    this.navCtrl.push('ProdutosPage', {categoria_id: categoria_id});
+  showProdutos(categoria_id: string) {
+    this.navCtrl.push('ProdutosPage', { categoria_id: categoria_id });
   }
 
 }
